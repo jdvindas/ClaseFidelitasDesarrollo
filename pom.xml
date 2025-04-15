@@ -96,6 +96,12 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
+        <dependency>
+            <groupId>za.co.absa.enceladus</groupId>
+            <artifactId>dao</artifactId>
+            <version>2.3.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
