@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @Slf4j
-@RequestMapping("/producto")
+@RequestMapping("/pruebas")
 public class PruebasController {
     
     @Autowired
@@ -26,50 +26,69 @@ public class PruebasController {
     private CategoriaService categoriaService;
 
     @GetMapping("/listado")
-    public String inicio(Model model) {
+    public String listado(Model model) {
         var productos = productoService.getProductos(false);
         model.addAttribute("productos", productos);
         model.addAttribute("totalProductos", productos.size());
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias", categorias);
-        return "/producto/listado";
+        return "/pruebas/listado";
     }
     
-    @GetMapping("/nuevo")
-    public String productoNuevo(Producto producto) {
-        return "/producto/modifica";
-    }
-
-    @Autowired
-    private FirebaseStorageServiceImpl firebaseStorageService;
-    
-    @PostMapping("/guardar")
-    public String productoGuardar(Producto producto,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
-        if (!imagenFile.isEmpty()) {
-            productoService.save(producto);
-            producto.setRutaImagen(
-                    firebaseStorageService.cargaImagen(
-                            imagenFile, 
-                            "producto", 
-                            producto.getIdProducto()));
-        }
-        productoService.save(producto);
-        return "redirect:/producto/listado";
-    }
-
-    @GetMapping("/eliminar/{idProducto}")
-    public String productoEliminar(Producto producto) {
-        productoService.delete(producto);
-        return "redirect:/producto/listado";
-    }
-
-    @GetMapping("/modificar/{idProducto}")
-    public String productoModificar(Producto producto, Model model) {
-        producto = productoService.getProducto(producto);
-        model.addAttribute("producto", producto);
+    @GetMapping("/listado/{idCategoria}")
+    public String listado(Model model, Categoria categoria) {
+        var productos = categoriaService.getCategoria(categoria).getProductos();
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias", categorias);
-        return "/producto/modifica";
+        return "/pruebas/listado";
+    }
+    
+    @GetMapping("/listado2")
+    public String listado2(Model model) {
+        var productos = productoService.getProductos(false);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        return "/pruebas/listado2";
+    }
+    
+    @PostMapping("/query1")
+    public String consultaQuery1(
+            @RequestParam(value="precioInf") double precioInf,
+            @RequestParam(value="precioSup") double precioSup,
+            Model model) {
+        var productos = productoService.findByPrecioBetweenOrderByDescription(precioInf, precioSup);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("precioInf", precioInf);
+        model.addAttribute("precioSup", precioSup);
+        return "/pruebas/listado2";
+    }
+    
+    @PostMapping("/query2")
+    public String consultaQuery2(
+            @RequestParam(value="precioInf") double precioInf,
+            @RequestParam(value="precioSup") double precioSup,
+            Model model) {
+        var productos = productoService.metodoJPQL(precioInf, precioSup);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("precioInf", precioInf);
+        model.addAttribute("precioSup", precioSup);
+        return "/pruebas/listado2";
+    }
+    
+    @PostMapping("/query3")
+    public String consultaQuery3(
+            @RequestParam(value="precioInf") double precioInf,
+            @RequestParam(value="precioSup") double precioSup,
+            Model model) {
+        var productos = productoService.metodoSQL(precioInf, precioSup);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("precioInf", precioInf);
+        model.addAttribute("precioSup", precioSup);
+        return "/pruebas/listado2";
     }
 }

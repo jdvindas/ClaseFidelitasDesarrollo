@@ -1,6 +1,7 @@
 package com.tienda.service.impl;
 
 import com.tienda.service.ReporteService;
+import com.tienda.services.ReporteService;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,15 +10,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Map;
 import javax.sql.DataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -130,6 +123,11 @@ public class ReporteServiceImpl implements ReporteService {
             return null;
         }
 
+    }
+
+    @Override
+    public ResponseEntity<Resource> generaResporte(String reporte, Map<String, Object> parametros, String tipo) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
