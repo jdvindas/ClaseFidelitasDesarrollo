@@ -21,7 +21,7 @@ public class Categoria implements Serializable {
     private boolean activo;
     
     @OneToMany
-    @Column(name="id_categoria")
+    @Column(name="id_categoria", updatable=false)
     private List<Producto> productos;
 
     public Long getIdCategoria() {

@@ -2,14 +2,14 @@ package com.tienda.service.impl;
 
 import com.tienda.dao.ProductoDao;
 import com.tienda.domain.Producto;
-import com.tienda.service.ProductoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.tienda.service.UsuarioService;
 
 @Service
-public class ProductoServiceImpl implements ProductoService {
+public class ProductoServiceImpl implements UsuarioService {
 
     @Autowired
     private ProductoDao productoDao;
