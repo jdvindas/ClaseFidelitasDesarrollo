@@ -82,4 +82,24 @@ public class CarritoController {
         itemService.facturar();
         return "redirect:/";
     }
+    
+    @Autowired
+    private ConstanteService constanteService;
+    
+    //Para ver el carrito
+    @GetMapping("/carrito/listado")
+    public String inicio(Model model) {
+        var items = itemService.gets();
+        var carritoTotalVenta = itemService.getTotal();
+
+        model.addAttribute("items", items);
+        model.addAttribute("carritoTotal", carritoTotalVenta);
+
+        double tCambio=Double.parseDouble(constanteService.getConstantePorAtributo("dolar").getValor());
+        
+        model.addAttribute("totalDolares", (double) (Math.round(carritoTotalVenta / tCambio * 100)) / 100);
+        model.addAttribute("precioVenta", tCambio);
+
+        return "/carrito/listado";
+    }
 }

@@ -134,4 +134,16 @@ public class ProjectConfig implements WebMvcConfigurer {
         build.userDetailsService(userDetailsService).passwordEncoder(new passwordEncoder());
     }
     
+    @Autowired
+    private ConstanteService constanteService;
+    
+    @Bean   
+    public APIContext apiContext() {
+        String clientId=constanteService.getConstantePorAtributo("paypal.client-id").getValor();
+        String clientSecret=constanteService.getConstantePorAtributo("paypal.client-secret").getValor();
+        String mode=constanteService.getConstantePorAtributo("paypal.mode").getValor();
+        
+        return new APIContext(clientId,clientSecret,mode);
+    }
+    
 }
